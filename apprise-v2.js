@@ -23,19 +23,20 @@ function Apprise(text, options) {
 	this.BeginTextArea ="";
 	this.EndTextArea ="";
 	this.idComponent = Math.random().toString(36).slice(2); //generate random id
+	this.type = options.type;
 	if(text===undefined || !text) {
 		return false;
 	}
 	//incrust a tinyMCE
 	this.Text = text;
-	if (options.type=="tinyMCE"){
+	if (this.type=="tinyMCE"){
 
   	    this.BeginTag ="<textarea id='"+this.idComponent+"'>";
 	    this.EndTag ="</textarea>";
 	    this.Text = this.BeginTag + this.Text + this.EndTag;
 	    this.optionsTiny = options.optionsTiny;
 	}
-	if (options.type == "select"){
+	if (this.type == "select"){
 		 var opcions =  text.split("|");
 		 this.Text = "<select id='"+this.idComponent+"' class='button chunky'>";
 		 for(var i=0;i<opcions.length;i++){
@@ -225,8 +226,9 @@ Apprise.prototype.getText=function() {
 return tinymce.get(this.idComponent).getContent();
 }
 Apprise.prototype.destroy=function(){
-	
-tinymce.get(this.idComponent).remove(); 
+	if (this.type=="tinyMCE"){
+       tinymce.get(this.idComponent).remove(); 
+     }
 this.dissapear();
 }
 Apprise.prototype.getComboValue = function(){
