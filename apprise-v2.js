@@ -217,5 +217,6 @@ return tinymce.get(this.idTiny).getContent();
 Apprise.prototype.destroy=function(){
 	
 tinymce.get(this.idTiny).remove(); 
+this.dissapear();
 }
 
