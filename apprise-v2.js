@@ -40,7 +40,7 @@ function Apprise(text, options) {
 		 var opcions =  text.split("|");
 		 this.Text = "<select id='"+this.idComponent+"' class='button chunky'>";
 		 for(var i=0;i<opcions.length;i++){
-		 	this.Text += "<option>"+opcions[i]+"</option>"
+		 	this.Text += "<option value="+i+">"+opcions[i]+"</option>"
 		 }
 		 this.Text += "<select>";
 	}
