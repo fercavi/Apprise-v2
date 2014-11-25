@@ -22,16 +22,26 @@ function Apprise(text, options) {
 	// Restrict blank modals
 	this.BeginTextArea ="";
 	this.EndTextArea ="";
-	this.idTiny = Math.random().toString(36).slice(2); //generate random id
+	this.idComponent = Math.random().toString(36).slice(2); //generate random id
 	if(text===undefined || !text) {
 		return false;
 	}
 	//incrust a tinyMCE
+	this.Text = text;
 	if (options.type=="tinyMCE"){
 
-  	    this.BeginTextArea ="<textarea id='"+this.idTiny+"'>";
-	    this.EndTextArea ="</textarea>";
+  	    this.BeginTag ="<textarea id='"+this.idComponent+"'>";
+	    this.EndTag ="</textarea>";
+	    this.Text = this.BeginTag + this.Text + this.EndTag;
 	    this.optionsTiny = options.optionsTiny;
+	}
+	if (options.type == "select"){
+		 var opcions =  text.split("|");
+		 this.Text = "<select id='"+this.idComponent+"' class='button chunky'>";
+		 for(var i=0;i<opcions.length;i++){
+		 	this.Text += "<option>"+opcions[i]+"</option>"
+		 }
+		 this.Text += "<select>";
 	}
 	// Necessary variables
 	var $me = this,
@@ -186,7 +196,7 @@ function Apprise(text, options) {
 	$window.resize( function() { $me.adjustWidth() } );
 	
 	// Append elements, show Apprise
-	$Apprise.html('').append( $_inner.append('<div class="apprise-content">' + this.BeginTextArea + text + this.EndTextArea + '</div>') ).append($_buttons);
+	$Apprise.html('').append( $_inner.append('<div class="apprise-content">' + this.Text + '</div>') ).append($_buttons);
 	$cA = this;
 	
 	if(settings.input) {
@@ -205,18 +215,23 @@ function Apprise(text, options) {
 	
 	// Focus on input
 	if (options.type =="tinyMCE")
-	   tinymce.init({selector: "textarea#"+this.idTiny }); 
+	   tinymce.init({selector: "textarea#"+this.idComponent }); 
 if(settings.input) {
 		$_input.focus();
 	}
 	
 } // end Apprise();
 Apprise.prototype.getText=function() {
-return tinymce.get(this.idTiny).getContent();
+return tinymce.get(this.idComponent).getContent();
 }
 Apprise.prototype.destroy=function(){
 	
-tinymce.get(this.idTiny).remove(); 
+tinymce.get(this.idComponent).remove(); 
 this.dissapear();
+}
+Apprise.prototype.getComboValue = function(){
+	var e = document.getElementById(this.idComponent);
+	var text = e.options[e.selectedIndex].value;
+	return text;
 }
 

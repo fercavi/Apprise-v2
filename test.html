@@ -20,10 +20,21 @@ function closeEditor(){
 function showText(){
 	alert(A.getText());
 }
+function showCombo(){
+	var options = {
+		type: "select",
+	}
+	A = new Apprise("opcio 1 | opcion 2 | opcio 3",options)
+}
+function getComboValue(){
+	alert(A.getComboValue());
+}
 </script>
 <body>
 <button class="button chunky" onclick="ShowAppTiny();">Apprise('hi there');</button>
 <button class="button chunky" onclick="closeEditor();">Clean</button>
 <button class="button chunky" onclick="showText();">ShowText</button>
+<button class="button chunky" onclick="showCombo();">ShowCombo</button>
+<button class="button chunky" onclick="getComboValue();">ShowCombo</button>
 </body>
 </html>
