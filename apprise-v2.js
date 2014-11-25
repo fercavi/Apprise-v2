@@ -20,10 +20,19 @@ $(function() {
 function Apprise(text, options) {
 	
 	// Restrict blank modals
+	this.BeginTextArea ="";
+	this.EndTextArea ="";
+	this.idTiny = "asdflhasdfkja_";
 	if(text===undefined || !text) {
 		return false;
 	}
-	
+	//incrust a tinyMCE
+	if (options.type=="tinyMCE"){
+
+  	    this.BeginTextArea ="<textarea id='"+this.idTiny+"'>";
+	    this.EndTextArea ="</textarea>";
+	    this.optionsTiny = options.optionsTiny;
+	}
 	// Necessary variables
 	var $me = this,
 			$_inner = $('<div class="apprise-inner">'),
@@ -177,7 +186,7 @@ function Apprise(text, options) {
 	$window.resize( function() { $me.adjustWidth() } );
 	
 	// Append elements, show Apprise
-	$Apprise.html('').append( $_inner.append('<div class="apprise-content">' + text + '</div>') ).append($_buttons);
+	$Apprise.html('').append( $_inner.append('<div class="apprise-content">' + this.BeginTextArea + text + this.EndTextArea + '</div>') ).append($_buttons);
 	$cA = this;
 	
 	if(settings.input) {
@@ -195,8 +204,18 @@ function Apprise(text, options) {
 	);
 	
 	// Focus on input
-	if(settings.input) {
+	if (options.type =="tinyMCE")
+	   tinymce.init({selector: "textarea#"+this.idTiny }); 
+if(settings.input) {
 		$_input.focus();
 	}
 	
 } // end Apprise();
+Apprise.prototype.getText=function() {
+return tinymce.get(this.idTiny).getContent();
+}
+Apprise.prototype.destroy=function(){
+	
+tinymce.get(this.idTiny).remove(); 
+}
+
