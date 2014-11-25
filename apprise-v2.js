@@ -22,7 +22,7 @@ function Apprise(text, options) {
 	// Restrict blank modals
 	this.BeginTextArea ="";
 	this.EndTextArea ="";
-	this.idTiny = "asdflhasdfkja_";
+	this.idTiny = Math.random().toString(36).slice(2); //generate random id
 	if(text===undefined || !text) {
 		return false;
 	}
