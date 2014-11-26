@@ -38,9 +38,12 @@ function Apprise(text, options) {
 	}
 	if (this.type == "select"){
 		 var opcions =  text.split("|");
-		 this.Text = "<select id='"+this.idComponent+"' class='button chunky'>";
+		 this.Text = "<select id='"+this.idComponent+"' class='button chunky' style='font-size:150%'>";
 		 for(var i=0;i<opcions.length;i++){
-		 	this.Text += "<option value="+i+">"+opcions[i]+"</option>"
+		 	if (options.selected==i)
+		 		this.Text += "<option value="+i+" selected>"+opcions[i]+"</option>"
+		 	else
+		 		this.Text += "<option value="+i+">"+opcions[i]+"</option>"
 		 }
 		 this.Text += "<select>";
 	}
